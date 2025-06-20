@@ -24,7 +24,6 @@ func Setup(router fiber.Router) {
 			return false
 		},
 	})*/
-
 	router.Use("*", func(ctx *fiber.Ctx) error {
 		if ctx.Method() != fiber.MethodGet {
 			return ctx.Next()
