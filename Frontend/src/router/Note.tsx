@@ -6,7 +6,7 @@ import { DarkModeToggle } from '../components/DarkModeToggle.tsx'
 import { toast, Toaster } from 'react-hot-toast'
 import { getNote, saveNote } from '../services/noteAPI'
 import { useParams } from 'react-router-dom'
-import Watermark from "../components/Watermark.tsx";
+import Watermark from '../components/Watermark.tsx'
 
 function useCtrlS(callback: () => void) {
   useEffect(() => {
@@ -139,12 +139,7 @@ export function Note() {
 
   return (
     <>
-      <Watermark
-          text={id || ''}
-          fontSize={10}
-          gapX={150}
-          gapY={150}
-      />
+      <Watermark text={id || ''} fontSize={10} gapX={150} gapY={150} />
       <div className="content">
         <DarkModeToggle />
         <div className={`note-container ${visible ? 'visible' : ''}`}>

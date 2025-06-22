@@ -3,7 +3,7 @@ import { DarkModeToggle } from '../components/DarkModeToggle'
 import './Home.scss'
 import { useNavigate } from 'react-router-dom'
 import * as React from 'react'
-import Watermark from "../components/Watermark.tsx";
+import Watermark from '../components/Watermark.tsx'
 
 export function Home() {
   const [visible, setVisible] = useState(false)
