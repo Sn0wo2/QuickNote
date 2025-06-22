@@ -38,6 +38,7 @@ func Export() func(ctx *fiber.Ctx) error {
 				zap.String("nid", nid),
 				zap.Error(err),
 				zap.String("ctx", common.FiberContextString(ctx)))
+
 			return err
 		}
 
