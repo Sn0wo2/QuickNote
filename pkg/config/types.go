@@ -3,7 +3,7 @@ package config
 type Config struct {
 	Listener struct {
 		Address string `yaml:"address"`
-		Static  string `yaml:"static" optional:"true"`
+		Static  string `optional:"true" yaml:"static"`
 	} `yaml:"listener"`
 	Logger struct {
 		Level string `yaml:"level"`
