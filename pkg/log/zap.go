@@ -16,7 +16,7 @@ import (
 
 var Instance = func() *zap.Logger {
 	logDir := "./logs"
-	if err := os.MkdirAll(logDir, 0755); err != nil {
+	if err := os.MkdirAll(logDir, 0o755); err != nil {
 		panic("failed to create log directory: " + err.Error())
 	}
 
