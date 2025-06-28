@@ -8,16 +8,16 @@ import (
 
 type Note struct {
 	// gorm.Model
-	ID        uint           `json:"-" gorm:"primarykey"`
+	ID        uint           `gorm:"primarykey" json:"-"`
 	CreatedAt time.Time      `json:"-"`
 	UpdatedAt time.Time      `json:"-"`
-	DeletedAt gorm.DeletedAt `json:"-" gorm:"index"`
+	DeletedAt gorm.DeletedAt `gorm:"index"      json:"-"`
 
-	NID  string `json:"nid" gorm:"index"`
+	NID  string `gorm:"index" json:"nid"`
 	Data []byte `json:"-"` // Encoded Payload
 
-	Title   []byte `json:"-" gorm:"-"` // Decoded Title
-	Content []byte `json:"-" gorm:"-"` // Decoded Content
+	Title   []byte `gorm:"-" json:"-"` // Decoded Title
+	Content []byte `gorm:"-" json:"-"` // Decoded Content
 
 	// TODO: REFACTOR THIS
 	DisplayTitle   string `json:"title,omitempty"`
