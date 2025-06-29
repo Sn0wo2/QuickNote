@@ -41,7 +41,9 @@ func Setup(router fiber.Router) {
 				zap.String("ctx", common.FiberContextString(ctx)))
 
 			err := ctx.SendFile(path)
+
 			var fiberErr *fiber.Error
+
 			switch {
 			case errors.As(err, &fiberErr) && fiberErr.Code == fiber.StatusNotFound:
 				return ctx.Next()
