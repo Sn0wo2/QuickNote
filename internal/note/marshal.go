@@ -40,6 +40,7 @@ func (n *Note) Encode() error {
 	var err error
 	n.Data, err = compress.FlateCompress(buf.Bytes())
 	n.Title, n.Content = nil, nil
+
 	return err
 }
 
