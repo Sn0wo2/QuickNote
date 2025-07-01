@@ -19,6 +19,7 @@ func Init() error {
 	if debug.IsDebug() {
 		cfgPath = "./data/config_test.yml"
 	}
+
 	cf, err := os.ReadFile(cfgPath)
 	if err != nil {
 		return err
