@@ -31,7 +31,7 @@
     "react-hot-toast": "^2.5.2",
     "react-quill": "^2.0.0",
     "react-router-dom": "^7.6.3",
-    "typescript-eslint": "^8.35.0",
+    "typescript-eslint": "^8.35.1",
     "use-dark-mode": "^2.3.1"
   },
   "devDependencies": {
