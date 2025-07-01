@@ -9,5 +9,6 @@ func Start(app *fiber.App) error {
 	if config.Instance.TLS.Cert != "" && config.Instance.TLS.Key != "" {
 		return app.ListenTLS(config.Instance.Listener.Address, config.Instance.TLS.Cert, config.Instance.TLS.Key)
 	}
+
 	return app.Listen(config.Instance.Listener.Address)
 }
