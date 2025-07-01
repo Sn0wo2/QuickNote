@@ -40,6 +40,7 @@ func FiberContextString(ctx *fiber.Ctx) string {
 		}
 
 		headers = append(headers, fmt.Sprintf("%s:%s", helper.BytesToString(key), v))
+
 		return true
 	})
 
