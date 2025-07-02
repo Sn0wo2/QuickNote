@@ -44,6 +44,7 @@ func main() {
 	if !fiber.IsChild() {
 		log.Instance.Info("Starting QuickNote...", zap.String("version", version.GetFormatVersion()))
 	}
+
 	if err := orm.Init(config.Instance.Database.Type, config.Instance.Database.URL); err != nil {
 		log.Instance.Fatal("Failed to initialize database",
 			zap.Error(err),

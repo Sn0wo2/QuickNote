@@ -23,6 +23,7 @@ func GetShortCommit() string {
 	if len(commit) > 7 {
 		return commit[:7]
 	}
+
 	return commit
 }
 
