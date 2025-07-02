@@ -4,9 +4,11 @@ import (
 	"time"
 )
 
-var version = "unknown"
-var commit = "unknown"
-var date = "unknown"
+var (
+	version = "unknown"
+	commit  = "unknown"
+	date    = "unknown"
+)
 
 func GetVersion() string {
 	return version
@@ -22,6 +24,7 @@ func GetDate() string {
 
 func GetDateTime() time.Time {
 	t, _ := time.Parse(time.RFC3339, date)
+
 	return t
 }
 
