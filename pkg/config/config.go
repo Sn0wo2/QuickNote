@@ -19,6 +19,7 @@ func Init() error {
 	if debug.IsDebug() {
 		cfgPath = os.Getenv("CONFIG_PATH_DEBUG")
 	}
+
 	if cfgPath == "" {
 		cfgPath = "./data/config.yml"
 	}
