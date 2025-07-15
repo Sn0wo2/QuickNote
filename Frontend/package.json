@@ -31,7 +31,7 @@
     "use-dark-mode": "^2.3.1"
   },
   "devDependencies": {
-    "typescript-eslint": "^8.36.0",
+    "typescript-eslint": "^8.37.0",
     "@eslint/js": "^9.31.0",
     "@types/node": "^24.0.13",
     "@types/react": "^19.1.8",
