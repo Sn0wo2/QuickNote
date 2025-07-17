@@ -27,7 +27,7 @@
     "react-dom": "^19.1.0",
     "react-hot-toast": "^2.5.2",
     "react-quill": "^2.0.0",
-    "react-router-dom": "^7.6.3",
+    "react-router-dom": "^7.7.0",
     "use-dark-mode": "^2.3.1"
   },
   "devDependencies": {
