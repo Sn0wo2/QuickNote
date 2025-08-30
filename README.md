@@ -48,6 +48,7 @@ docker compose up -d
 ## 📥 **Download**
 
 [![GitHub release](https://img.shields.io/github/v/release/Sn0wo2/QuickNote?logo=github)](https://github.com/Sn0wo2/QuickNote/releases)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSn0wo2%2FQuickNote.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FSn0wo2%2FQuickNote?ref=badge_shield)
 
 ---
 
@@ -148,3 +149,6 @@ Check:
 ## 📄 **License**
 
 Licensed under [GPL 3.0](LICENSE).
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSn0wo2%2FQuickNote.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FSn0wo2%2FQuickNote?ref=badge_large)
