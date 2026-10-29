@@ -22,7 +22,7 @@ func Init() {
 		panic("failed to resolve log dir path: " + err.Error())
 	}
 
-	if err := os.MkdirAll(logDir, 0o755); err != nil {
+	if err := os.MkdirAll(logDir, 0o750); err != nil {
 		panic("failed to create log directory: " + err.Error())
 	}
 
