@@ -8,6 +8,7 @@ on:
       - 'go.mod'
       - 'go.sum'
       - '.golangci.yml'
+      - 'Makefile'
       - '.github/workflows/go.yml'
   pull_request:
     paths:
@@ -15,67 +16,51 @@ on:
       - 'go.mod'
       - 'go.sum'
       - '.golangci.yml'
+      - 'Makefile'
       - '.github/workflows/go.yml'
   workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: ci-go-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   vet-test-update-build:
     name: Vet, Test, Update and Build
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
 
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
         with:
-          go-version-file: 'go.mod'
+          go-version: stable
           cache: true
 
-      - name: Update dependencies
-        run: go get all
-
-      - name: Update go.sum
-        run: go mod tidy
+      - name: Verify dependencies
+        run: go mod download && go mod verify
 
       - name: Run vet
         run: go vet $(go list ./...)
 
       - name: Run tests
-        run: go test -vet=off $(go list ./...)
+        run: make test
 
       - name: Build binary
         run: go build -v -o dist/QuickNote .
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: QuickNote-Binary
           path: dist/QuickNote
-
-      - name: Check for file changes
-        id: git-check
-        run: |
-          if git diff --exit-code; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Create Pull Request with update dependencies
-        if: steps.git-check.outputs.changed == 'true' && github.ref == 'refs/heads/main'
-        uses: peter-evans/create-pull-request@v7
-        with:
-          commit-message: "chore(backend): update dependencies"
-          title: "chore(backend): update dependencies"
-          body: "The `Update dependencies` action wants to apply these fixes."
-          branch: "chore/go-dependencies"
-          base: main
-          signoff: true
-          sign-commits: true
 
   lint:
     name: Lint and Auto-fix
@@ -85,21 +70,21 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
 
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
         with:
-          go-version-file: 'go.mod'
+          go-version: stable
           cache: true
 
       - name: Run golangci-lint with auto-fix
-        uses: golangci/golangci-lint-action@v8
+        uses: golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9
         with:
           version: latest
           args: --fix
-          cache-key: golangci-lint
-          cache: true
 
       - name: Check for file changes
         id: git-check
@@ -112,7 +97,7 @@ jobs:
 
       - name: Create Pull Request with lint fixes
         if: steps.git-check.outputs.changed == 'true' && github.ref == 'refs/heads/main'
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
         with:
           commit-message: "chore(backend): fix lint issues"
           title: "chore(backend): fix lint issues"

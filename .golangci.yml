@@ -1,9 +1,11 @@
 version: "2"
 
 linters:
+  default: none
   enable:
     - govet
     - errcheck
+    - ineffassign
     - staticcheck
     - unused
     - nilnesserr
@@ -20,9 +22,10 @@ linters:
     - whitespace
     - tagalign
     - dupl
+    - dogsled
     - nolintlint
     - maintidx
-    - wsl
+    - wsl_v5
     - decorder
     - asciicheck
     - bidichk
@@ -44,6 +47,7 @@ linters:
     - ginkgolinter
     - gocheckcompilerdirectives
     - gochecksumtype
+    - gosec
     - gomoddirectives
     - goprintffuncname
     - importas
@@ -63,6 +67,7 @@ linters:
     - protogetter
     - reassign
     - recvcheck
+    - revive
     - rowserrcheck
     - sloglint
     - spancheck
@@ -81,6 +86,12 @@ linters:
     - misspell
     - tparallel
 
+  settings:
+    revive:
+      enable-default-rules: false
+      rules:
+        - name: var-declaration
+
 run:
   tests: true
   concurrency: 4
@@ -91,7 +102,6 @@ run:
 issues:
   max-issues-per-linter: 0
   uniq-by-line: true
-  fix: true
 
 formatters:
   enable:

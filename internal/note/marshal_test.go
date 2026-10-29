@@ -2,19 +2,18 @@ package note
 
 import (
 	"bytes"
-	"math/rand/v2"
 	"testing"
 )
 
-func generateRandomNote() *Note {
+func generateNote() *Note {
 	return &Note{
-		Title:   bytes.Repeat([]byte{'a'}, rand.IntN(100)+50),
-		Content: bytes.Repeat([]byte{'b'}, rand.IntN(1000)+500),
+		Title:   bytes.Repeat([]byte{'a'}, 100),
+		Content: bytes.Repeat([]byte{'b'}, 1000),
 	}
 }
 
 func BenchmarkEncode(b *testing.B) {
-	note := generateRandomNote()
+	note := generateNote()
 
 	b.ResetTimer()
 
@@ -24,7 +23,7 @@ func BenchmarkEncode(b *testing.B) {
 }
 
 func BenchmarkDecode(b *testing.B) {
-	note := generateRandomNote()
+	note := generateNote()
 	if err := note.Encode(); err != nil {
 		b.Fatalf("Failed to encode note for benchmark: %v", err)
 	}
@@ -40,7 +39,7 @@ func BenchmarkDecode(b *testing.B) {
 }
 
 func BenchmarkEncodeDecode(b *testing.B) {
-	note := generateRandomNote()
+	note := generateNote()
 
 	b.ResetTimer()
 

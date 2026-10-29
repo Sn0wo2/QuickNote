@@ -8,13 +8,21 @@ RM_RF := rm -rf ./static
 
 UNAME_S := $(shell uname -s)
 
+RACE_PLATFORMS := \
+	linux/amd64 linux/arm64 linux/ppc64le linux/s390x \
+	freebsd/amd64 netbsd/amd64 darwin/amd64 darwin/arm64 windows/amd64
+GO_TEST_PLATFORM := $(shell go env GOOS)/$(shell go env GOARCH)
+GO_TEST_RACE := $(if $(and \
+	$(filter 1,$(shell go env CGO_ENABLED)), \
+	$(filter $(GO_TEST_PLATFORM),$(RACE_PLATFORMS))),-race)
+
 ifeq ($(OS),Windows_NT)
 	EXT := .exe
 	MOVE := move
 	RM_RF := if exist static ( rmdir /s /q static )
 endif
 
-.PHONY: test_release run_docker update_depends update_frontend_depends build
+.PHONY: test_release run_docker update_depends update_frontend_depends build lint lint-fix test security ci
 
 test_release:
 	@echo "<<< Starting test release"
@@ -61,3 +69,17 @@ build:
 		-asmflags="-trimpath" main.go
 
 	@echo "<<< Build complete: ./QuicKNote$(EXT)"
+
+lint:
+	go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.15.0 run
+
+lint-fix:
+	go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.15.0 run --fix
+
+test:
+	go test $(GO_TEST_RACE) ./...
+
+security:
+	go run golang.org/x/vuln/cmd/govulncheck@latest ./...
+
+ci: lint test security

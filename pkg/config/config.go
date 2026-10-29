@@ -24,6 +24,7 @@ func Init() error {
 		cfgPath = "./data/config.yml"
 	}
 
+	// #nosec G304 G703 -- cfgPath is the user's configured location for the app config.
 	cf, err := os.ReadFile(cfgPath)
 	if err != nil {
 		return err
@@ -52,7 +53,7 @@ func (c *Config) String() string {
 
 func validate(cfg any) error {
 	v := reflect.ValueOf(cfg)
-	if v.Kind() == reflect.Ptr {
+	if v.Kind() == reflect.Pointer {
 		v = v.Elem()
 	}
 
@@ -82,7 +83,7 @@ func validate(cfg any) error {
 			isEmpty = value.Uint() == 0
 		case reflect.Float32, reflect.Float64:
 			isEmpty = value.Float() == 0
-		case reflect.Ptr, reflect.Interface:
+		case reflect.Pointer, reflect.Interface:
 			isEmpty = value.IsNil()
 		case reflect.Slice, reflect.Map, reflect.Array:
 			isEmpty = value.Len() == 0

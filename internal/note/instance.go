@@ -13,6 +13,7 @@ func InitNoteSchema() error {
 
 func GetNote(nid string) (Note, error) {
 	var note Note
+
 	err := orm.Instance.Get().First(&note, "n_id = ?", nid).Error
 
 	return note, err

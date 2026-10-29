@@ -14,6 +14,7 @@ const (
 	magicVersion = 1
 	fieldTitle   = 1
 	fieldContent = 2
+	maxFieldSize = 64 << 20
 )
 
 // magicHeader First 2 bytes of SHA-256 hash of "QuickNote"
@@ -38,6 +39,7 @@ func (n *Note) Encode() error {
 	writeField(fieldContent, n.Content)
 
 	var err error
+
 	n.Data, err = compress.FlateCompress(buf.Bytes())
 	n.Title, n.Content = nil, nil
 
@@ -85,7 +87,12 @@ func (n *Note) Decode(data []byte) error {
 			return fmt.Errorf("read field %d length: %w", id, err)
 		}
 
-		value := make([]byte, binary.LittleEndian.Uint32(buf))
+		fieldLen := binary.LittleEndian.Uint32(buf)
+		if fieldLen > maxFieldSize || int64(fieldLen) > int64(r.Len()) {
+			return fmt.Errorf("field %d length exceeds remaining data", id)
+		}
+
+		value := make([]byte, int(fieldLen))
 		if _, err = io.ReadFull(r, value); err != nil {
 			return fmt.Errorf("read field %d: %w", id, err)
 		}
