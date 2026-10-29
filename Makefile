@@ -14,7 +14,7 @@ ifeq ($(OS),Windows_NT)
 	RM_RF := if exist static ( rmdir /s /q static )
 endif
 
-.PHONY: test_release run_docker update_depends update_frontend_depends build
+.PHONY: test_release run_docker update_depends update_frontend_depends build lint lint-fix test security ci
 
 test_release:
 	@echo "<<< Starting test release"
@@ -61,3 +61,17 @@ build:
 		-asmflags="-trimpath" main.go
 
 	@echo "<<< Build complete: ./QuicKNote$(EXT)"
+
+lint:
+	go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.15.0 run
+
+lint-fix:
+	go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.15.0 run --fix
+
+test:
+	go test $(if $(filter 1,$(shell go env CGO_ENABLED)),-race) ./...
+
+security:
+	go run golang.org/x/vuln/cmd/govulncheck@latest ./...
+
+ci: lint test security
