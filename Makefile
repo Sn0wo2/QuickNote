@@ -8,6 +8,14 @@ RM_RF := rm -rf ./static
 
 UNAME_S := $(shell uname -s)
 
+RACE_PLATFORMS := \
+	linux/amd64 linux/arm64 linux/ppc64le linux/s390x \
+	freebsd/amd64 netbsd/amd64 darwin/amd64 darwin/arm64 windows/amd64
+GO_TEST_PLATFORM := $(shell go env GOOS)/$(shell go env GOARCH)
+GO_TEST_RACE := $(if $(and \
+	$(filter 1,$(shell go env CGO_ENABLED)), \
+	$(filter $(GO_TEST_PLATFORM),$(RACE_PLATFORMS))),-race)
+
 ifeq ($(OS),Windows_NT)
 	EXT := .exe
 	MOVE := move
@@ -69,7 +77,7 @@ lint-fix:
 	go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.15.0 run --fix
 
 test:
-	go test $(if $(filter 1,$(shell go env CGO_ENABLED)),-race) ./...
+	go test $(GO_TEST_RACE) ./...
 
 security:
 	go run golang.org/x/vuln/cmd/govulncheck@latest ./...
